@@ -1,48 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="http://localhost:8888/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
-<link href="/mysite/assets/css/main.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/main.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="">MySite</a>
-			</h1>
-
-			<!-- 
-			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>
-			-->	
-			<ul>
-				<li><a href="" class="btn_s">로그인</a></li>
-				<li><a href="" class="btn_s">회원가입</a></li>
-			</ul>
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
-			</ul>
-		</div>
-		<!-- //nav -->
-
+		<!-- header + nav -->
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+		<!-- //header + nav -->
 		
 		<div id="container" class="clearfix">
 			<!-- aside 없음 -->
@@ -51,11 +26,12 @@
 				<!-- content-head 없음 -->
 				<div id="index"> 
 				
-					<img id="profile-img" src="/mysite/assets/images/profile.jpg">
+					<img id="profile-img" src="${pageContext.request.contextPath}/assets/images/profile.jpg">
 					
 					<div id="greetings">
 						<p class="text-xlarge">
-							<span class="bold">안녕하세요!!<br>
+							<span class="bold">안녕하세요!!
+							<br>
 							황일영의 MySite에 오신 것을 환영합니다.<br>
 							<br>
 							이 사이트는 웹 프로그램밍 실습과제 예제 사이트입니다.<br>
@@ -87,9 +63,8 @@
 		<!-- //container -->
 		
 		
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<!-- footer -->
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>

@@ -59,15 +59,24 @@ public class UserController {
 		System.out.println("여기는 컨트롤러------------------");
 		System.out.println(authUser);
 		
-		//로그인
+		//로그인(세션영역에 저장)
 		session.setAttribute("authUser", authUser);
 		
-		
-		
-		
-		return "";
+		//메인페이지로 리다이렉트
+		return "redirect:/main";
 	}
 	
+	/* 로그아웃 */
+	@RequestMapping(value="/user/logout", method = {RequestMethod.GET, RequestMethod.POST})
+	public String logout(HttpSession session) {
+		System.out.println("UserController.logout()");
+		
+		//session.removeAttribute("authUser");
+		session.invalidate();
+		
+		//메인페이지로 리다이렉트
+		return "redirect:/main";
+	}
 	
 	
 	

@@ -49,7 +49,7 @@
 				<!-- //content-head -->
 
 				<div id="guestbook">
-					<form action="" method="">
+					<form id="guestbookForm" action="${pageContext.request.contextPath}/api/guestbook/write" method="">
 						<table id="guestAdd">
 							<colgroup>
 								<col style="width: 70px;">
@@ -59,12 +59,15 @@
 							</colgroup>
 							<tbody>
 								<tr>
-									<th><label class="form-text" for="input-uname">이름</label>
-									</td>
-									<td><input id="input-uname" type="text" name="name"></td>
-									<th><label class="form-text" for="input-pass">패스워드</label>
-									</td>
-									<td><input id="input-pass" type="password" name="pass"></td>
+									<th>
+										<label class="form-text" for="input-uname">이름</label>
+									</th>
+									<td><input id="input-uname" type="text" name="name" value=""></td>
+									
+									<th>
+										<label class="form-text" for="input-pass">패스워드</label>
+									</th>
+									<td><input id="input-pass" type="password" name="pass" value=""></td>
 								</tr>
 								<tr>
 									<td colspan="4"><textarea name="content" cols="72" rows="5"></textarea></td>
@@ -102,13 +105,14 @@
 	<!-- //wrap -->
 
 <script>
+//로딩될때 
 document.addEventListener('DOMContentLoaded', function(){
 	console.log("DOM tree완료");
 
 	//서버로 데이터 요청
     axios({
 		method: 'get',           // put, post, delete                   
-		url: '/mysite/api/guestbook/list',
+		url: '${pageContext.request.contextPath}/api/guestbook/list',
 		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
 		//params: guestbookVo,  //get방식 파라미터로 값이 전달
         //data: guestbookVo,   //put, post, delete 방식 자동으로 JSON으로 변환 전달
@@ -117,30 +121,91 @@ document.addEventListener('DOMContentLoaded', function(){
     }).then(function (response) {
         console.log(response.data); //수신데이타
 		
-		
-		//태그 가져오기
-		let listArea = document.querySelector('#guestbookListArea');
-		console.log(listArea);
-		
 		for(let i=0; i<response.data.length; i++){
 			//console.log(response.data[i].name);
-			
-			let str = response.data[i].name + ", " + response.data[i].regDate + "<br>";
-			
-			listArea.insertAdjacentHTML('afterbegin', str);
+			let guestbookVo = response.data[i]
+			render(guestbookVo);
 		}
-		
-		
-		
-
     
     }).catch(function (error) {
         console.log(error);
     
     });
+	
+	
+	
+  	//전동버튼(form, submit) 클릭했을때 (데이터만 받을거야)
+  	let guestbookForm = document.querySelector('#guestbookForm');
+  	guestbookForm.addEventListener('submit', function(event){
+  		event.preventDefault();
+  		console.log('전송');
+  		
+  		//폼의 데이터 수집(이름 패스워드 본문)
+  		let name = document.querySelector('#input-uname').value;   //공부차원에서 id로 가져옴
+  		let password = document.querySelector('[name="pass"]').value; //일관성있게 속성값으로 찾기
+  		let content = document.querySelector('[name="content"]').value; 
+  	
+  		let guestbookVo = {
+  			name: name,
+  			password: password,
+  			content: content
+  		};
+  		console.log(guestbookVo);	
+  		
+  		//전송
+  	    axios({
+   	        method: 'get',           // put, post, delete                   
+   	        url: '${pageContext.request.contextPath}/api/guestbook/write',
+   	        headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+   	        params: guestbookVo,  //get방식 파라미터로 값이 전달
+   	        //data: guestbookVo,   //put, post, delete 방식 자동으로 JSON으로 변환 전달
+   	    
+   	        responseType: 'json' //수신타입
+   	    }).then(function (response) {
+   	        console.log(response); //수신데이타
+   	    
+   	    }).catch(function (error) {
+   	        console.log(error);
+   	    
+   	    });
+
+
+  		
+  		
+  	});
 
 	
 });
+
+
+
+//그리기
+function render(guestbookVo){
+	console.log(guestbookVo);
+	//태그 가져오기
+	let listArea = document.querySelector('#guestbookListArea');
+	
+	let str = '';
+	str += '<table class="guestRead">';
+	str += '	<colgroup>';
+	str += '		<col style="width: 10%;">';
+	str += '		<col style="width: 40%;">';
+	str += '		<col style="width: 40%;">';
+	str += '		<col style="width: 10%;">';
+	str += '	</colgroup>';
+	str += '	<tr>';
+	str += '		<td>'+guestbookVo.no+'</td>';
+	str += '		<td>'+guestbookVo.name+'</td>';
+	str += '		<td>'+guestbookVo.regDate+'</td>';
+	str += '		<td><a href="">[삭제]</a></td>';
+	str += '	</tr>';
+	str += '	<tr>';
+	str += '		<td colspan=4 class="text-left">'+guestbookVo.content+'</td>';
+	str += '	</tr>';
+	str += '</table>';
+	
+	listArea.insertAdjacentHTML('beforeend', str);
+}
 
 
 </script>

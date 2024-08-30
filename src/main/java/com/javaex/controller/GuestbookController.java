@@ -25,6 +25,7 @@ public class GuestbookController {
 		System.out.println("GuestbookController.addList()");
 
 		List<GuestbookVo> guestbookList = guestbookService.exeAddList();
+		System.out.println(guestbookList);
 		model.addAttribute("guestbookList", guestbookList);
 
 		return "guestbook/addList";

@@ -109,9 +109,82 @@
 document.addEventListener('DOMContentLoaded', function(){
 	console.log("DOM tree완료");
 
-	console.log("리스트요청");
+	//리스트 가져와서 그리기//////////////////////////////////
+	getListRender();
+	
+	//글 저장하고 그리기 이벤트 등록//////////////////////////////////////////////////
+  	let guestbookForm = document.querySelector('#guestbookForm');
+  	guestbookForm.addEventListener('submit', addRender );
+	
+  	
+  	
+  	
+});
+
+
+//글저장하고 그리기 메소드
+function addRender(event){
+	
+	event.preventDefault();
+	console.log('전송');
+	
+	//폼의 데이터 수집(이름 패스워드 본문)
+	let nameTag = document.querySelector('#input-uname');   //공부차원에서 id로 가져옴
+	let passwordTag = document.querySelector('[name="pass"]'); //일관성있게 속성값으로 찾기
+	let contentTag = document.querySelector('[name="content"]'); 
+	
+	let name = nameTag.value;
+	let password = passwordTag.value;
+	let content = contentTag.value
+	
+	let guestbookVo = {
+		name: name,
+		password: password,
+		content: content
+	};
+	console.log(guestbookVo);	
+	
+	//전송
+   	axios({
+        method: 'get',           // put, post, delete                   
+        url: '${pageContext.request.contextPath}/api/guestbook/write',
+        headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+        params: guestbookVo,  //get방식 파라미터로 값이 전달
+        //data: guestbookVo,   //put, post, delete 방식 자동으로 JSON으로 변환 전달
+    
+        responseType: 'json' //수신타입
+    }).then(function (response) {
+        console.log(response); //수신데이타
+		console.log(response.data); //수신데이타
+    
+		//리스트에 추가(그리기)
+		render(response.data, 'up');
+		
+		
+		//폼 초기화
+		nameTag.value = '';
+		passwordTag.value = '';
+		contentTag.value = '';
+		
+		//guestbookForm.reset();
+		
+		
+    }).catch(function (error) {
+        console.log(error);
+    
+    });
+	
+}
+
+
+
+
+
+
+//리그트 가져와서 그리기메소드
+function getListRender(){
 	//서버로 데이터 요청
-    axios({
+	axios({
 		method: 'get',           // put, post, delete                   
 		url: '${pageContext.request.contextPath}/api/guestbook/list',
 		headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
@@ -125,63 +198,18 @@ document.addEventListener('DOMContentLoaded', function(){
 		for(let i=0; i<response.data.length; i++){
 			//console.log(response.data[i].name);
 			let guestbookVo = response.data[i]
-			render(guestbookVo);
+			render(guestbookVo, 'down');
 		}
     
     }).catch(function (error) {
         console.log(error);
     
     });
-	
-	
-	
-  	//전동버튼(form, submit) 클릭했을때 (데이터만 받을거야)
-  	let guestbookForm = document.querySelector('#guestbookForm');
-  	guestbookForm.addEventListener('submit', function(event){
-  		event.preventDefault();
-  		console.log('전송');
-  		
-  		//폼의 데이터 수집(이름 패스워드 본문)
-  		let name = document.querySelector('#input-uname').value;   //공부차원에서 id로 가져옴
-  		let password = document.querySelector('[name="pass"]').value; //일관성있게 속성값으로 찾기
-  		let content = document.querySelector('[name="content"]').value; 
-  	
-  		let guestbookVo = {
-  			name: name,
-  			password: password,
-  			content: content
-  		};
-  		console.log(guestbookVo);	
-  		
-  		//전송
-  	    axios({
-   	        method: 'get',           // put, post, delete                   
-   	        url: '${pageContext.request.contextPath}/api/guestbook/write',
-   	        headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
-   	        params: guestbookVo,  //get방식 파라미터로 값이 전달
-   	        //data: guestbookVo,   //put, post, delete 방식 자동으로 JSON으로 변환 전달
-   	    
-   	        responseType: 'json' //수신타입
-   	    }).then(function (response) {
-   	        console.log(response); //수신데이타
-    		console.log(response.data); //수신데이타
-   	    
-   			render(response.data);
-   	
-   	
-   	    }).catch(function (error) {
-   	        console.log(error);
-   	    
-   	    });
-  		
-  	});
-
-});
-
+}
 
 
 //1개그리기
-function render(guestbookVo){
+function render(guestbookVo, dir){
 	//console.log(guestbookVo);
 	
 	//태그 가져오기
@@ -206,8 +234,14 @@ function render(guestbookVo){
 	str += '	</tr>';
 	str += '</table>';
 	
-	listArea.insertAdjacentHTML('beforeend', str);
-	console.log("데이터1개 랜더링");
+	if(dir == 'down'){
+		listArea.insertAdjacentHTML('beforeend', str);	
+	}else if(dir == 'up') {
+		listArea.insertAdjacentHTML('afterbegin', str);	
+	}else {
+		console.log('방향체크');
+	}
+	
 }
 
 

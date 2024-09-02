@@ -42,12 +42,14 @@ public class GuestbookService {
 	//ajax등록  저장
 	public GuestbookVo exeAddandGuest(GuestbookVo guestbookVo) {
 		System.out.println("GuestbookService.exeAddandGuest()");
-		
+		//*비지니스 로직///////////////////////////////////////////
 		//저장
-		guestbookDao.insertSelectKey(guestbookVo);
+		int count = guestbookDao.insertSelectKey(guestbookVo);
 		
 		//1명데이터 데이터 가져오기
-		GuestbookVo gVo= guestbookDao.guestbookSelectOne(guestbookVo.getNo());
+		GuestbookVo gVo = guestbookDao.guestbookSelectOne(guestbookVo.getNo());
+		/////////////////////////////////////////////////////////////
+		
 		return gVo;
 	}
 	

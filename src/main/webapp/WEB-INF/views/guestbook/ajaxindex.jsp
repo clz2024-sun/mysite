@@ -109,6 +109,7 @@
 document.addEventListener('DOMContentLoaded', function(){
 	console.log("DOM tree완료");
 
+	console.log("리스트요청");
 	//서버로 데이터 요청
     axios({
 		method: 'get',           // put, post, delete                   
@@ -120,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		responseType: 'json' //수신타입  
     }).then(function (response) {
         console.log(response.data); //수신데이타
-		
+		console.log("리스트수신");
 		for(let i=0; i<response.data.length; i++){
 			//console.log(response.data[i].name);
 			let guestbookVo = response.data[i]
@@ -163,25 +164,26 @@ document.addEventListener('DOMContentLoaded', function(){
    	        responseType: 'json' //수신타입
    	    }).then(function (response) {
    	        console.log(response); //수신데이타
+    		console.log(response.data); //수신데이타
    	    
+   			render(response.data);
+   	
+   	
    	    }).catch(function (error) {
    	        console.log(error);
    	    
    	    });
-
-
-  		
   		
   	});
 
-	
 });
 
 
 
-//그리기
+//1개그리기
 function render(guestbookVo){
-	console.log(guestbookVo);
+	//console.log(guestbookVo);
+	
 	//태그 가져오기
 	let listArea = document.querySelector('#guestbookListArea');
 	
@@ -205,6 +207,7 @@ function render(guestbookVo){
 	str += '</table>';
 	
 	listArea.insertAdjacentHTML('beforeend', str);
+	console.log("데이터1개 랜더링");
 }
 
 

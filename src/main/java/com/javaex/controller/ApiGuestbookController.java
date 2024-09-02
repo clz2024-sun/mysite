@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.javaex.service.GuestbookService;
 import com.javaex.vo.GuestbookVo;
@@ -32,13 +31,21 @@ public class ApiGuestbookController {
 	
 	
 	//방명록 등록
+	@ResponseBody
 	@RequestMapping(value="/api/guestbook/write", method = {RequestMethod.GET, RequestMethod.POST})
-	public String write(@ModelAttribute GuestbookVo guestbookVo) {
+	public GuestbookVo write(@ModelAttribute GuestbookVo guestbookVo) {
 		System.out.println("ApiGuestbookController.write()");
 		
+		//int count = guestbookService.exeAdd(guestbookVo);
+		
+		//데이터 3개짜리 vo
 		System.out.println(guestbookVo);
 		
-		return "";
+		//가져오기
+		GuestbookVo gVo = guestbookService.exeAddandGuest(guestbookVo);
+		System.out.println(gVo);  //데이터5개짜리 vo
+		
+		return gVo;
 	}
 	
 	

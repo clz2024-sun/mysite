@@ -46,6 +46,7 @@ public class GuestbookDao {
 		int count = sqlSession.insert("guestbook.insertSelectKey", guestbookVo);
 		return count;
 	}
+	
 
 	// 데이터 1개 가져오기 no 1명데이터 가져오기
 	public GuestbookVo guestbookSelectOne(int no) {
@@ -55,4 +56,16 @@ public class GuestbookDao {
 		return guestbookVo;
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
 }

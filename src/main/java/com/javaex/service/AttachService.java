@@ -13,7 +13,7 @@ import com.javaex.vo.AttachVo;
 @Service
 public class AttachService {
 	
-	public void upload(MultipartFile file) {
+	public String upload(MultipartFile file) {
 		System.out.println("AttachService.upload");
 		
 		//사진에 기본정보로 우리가 관리할 정보를 뽑아내야된다 -->db저장
@@ -65,6 +65,7 @@ public class AttachService {
 			System.out.println(e.toString());
 		}
 		
+		return savaName;  //시간+uuid+.jpg
 	}
 
 }

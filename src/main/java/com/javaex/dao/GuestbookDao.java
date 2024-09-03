@@ -57,10 +57,9 @@ public class GuestbookDao {
 	}
 
 	
+
 	
-	
-	
-	
+
 	
 	
 	

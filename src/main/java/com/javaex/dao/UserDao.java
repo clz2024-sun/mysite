@@ -28,4 +28,12 @@ public class UserDao {
 		return authUser;
 	}
 	
+	//id로 데이터가져오기-id사용여부 체크할때 사용
+	public int selecUserById(String id) {
+		System.out.println("UserDao.selecUserById()");
+		
+		int count = sqlSession.selectOne("user.selectById", id );
+		return count;
+	}
+	
 }

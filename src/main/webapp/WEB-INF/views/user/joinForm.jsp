@@ -10,6 +10,9 @@
 <link href="http://localhost:8888/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/user.css" rel="stylesheet" type="text/css">
 
+<!-- Axios 라이브러리 포함 -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>
@@ -84,9 +87,10 @@
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
 								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
-								<button type="button" id="">중복체크</button>
+								<button type="button" id="btnIdCheck">중복체크</button>
 							</div>
-	
+							<div id="message"></div>
+							
 							<!-- 비밀번호 -->
 							<div class="form-group">
 								<label class="form-text" for="input-pass">패스워드</label> 
@@ -104,7 +108,7 @@
 								<span class="form-text">성별</span> 
 								
 								<label for="rdo-male">남</label> 
-								<input type="radio" id="rdo-male" name="gender" value="male" > 
+								<input type="radio" id="rdo-male" name="gender" value="male" >
 								
 								<label for="rdo-female">여</label> 
 								<input type="radio" id="rdo-female" name="gender" value="female" > 
@@ -143,8 +147,56 @@
 	<!-- //wrap -->
 
 <script>
-//"DOMTree 완료되었을때" 이벤트등록
-doument.
+// "DOMTree 완료되었을때" 이벤트등록
+document.addEventListener('DOMContentLoaded', function(){
+	console.log("DOM tree완료");
+	
+	//태그잡아오고 이벤트등록
+	let btnIdCheck = document.querySelector('#btnIdCheck');
+	btnIdCheck.addEventListener('click', function(){
+		console.log('클릭');
+		
+		//데이터수집
+		let txtIdTag = document.querySelector('#input-uid');
+		let id = txtIdTag.value;
+		
+		//요청(통신)
+	    axios({
+   	        method: 'get',           // put, post, delete                   
+   	        url: '${pageContext.request.contextPath}/api/user/idcheck',
+   	        headers: {"Content-Type" : "application/json; charset=utf-8"}, //전송타입
+   	        params: {id: id},  //get방식 파라미터로 값이 전달
+   	        //data: guestbookVo,   //put, post, delete 방식 자동으로 JSON으로 변환 전달
+   	    
+   	        responseType: 'json' //수신타입
+   	    }).then(function (response) {
+   	        console.log(response.data); //수신데이타
+   			
+   			let can = response.data;
+   			let messageTag = document.querySelector('#message');
+   			
+   			//그리기
+   			if(can == true){
+   				messageTag.textContent = "사용할 수 있는 아이디입니다.";
+   				messageTag.style.color = "#0000ff";
+   			}else {
+   				messageTag.textContent = "다른아이디를 사용해주세요";
+   				messageTag.style.color = "#ff0000";
+   			}
+   			
+   	    }).catch(function (error) {
+   	        console.log(error);
+   	    
+   	    });
+
+		
+	});
+	
+	
+	
+});
+
+
 
 
 </script>

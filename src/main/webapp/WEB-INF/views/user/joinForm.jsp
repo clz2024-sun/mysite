@@ -143,6 +143,8 @@
 	<!-- //wrap -->
 
 <script>
+//"DOMTree 완료되었을때" 이벤트등록
+doument.
 
 
 </script>

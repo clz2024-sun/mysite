@@ -47,7 +47,17 @@
 		        u.no userNo
 		FROM tboard b, users u
 		WHERE  b.user_no = u.no	
-		and title like concat('%',#{keyword},'%')	
+	]]>
+	
+	<if test="keyword != null">
+	
+		<![CDATA[
+			and title like concat('%',#{keyword},'%') 
+		]]>
+		
+	</if>
+	
+	<![CDATA[
 		order by no asc
 		limit #{startRowNo}, #{listCnt}
 	]]>
@@ -70,8 +80,12 @@
 		<![CDATA[
 			select count(*) count
 			from tboard
+		]]>
+		<if test="keyword != null">
+		<![CDATA[
 			where title like concat('%',#{keyword},'%')	
 		]]>
+		</if>
 	</select>
 	
 	

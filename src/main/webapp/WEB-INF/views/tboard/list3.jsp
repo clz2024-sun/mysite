@@ -73,9 +73,9 @@
 	
 				<div id="board">
 					<div id="list">
-						<form action="" method="">
+						<form action="${pageContext.request.contextPath}/tboard/list3" method="get">
 							<div class="form-group text-right">
-								<input type="text">
+								<input type="text" name="keyword" value="">
 								<button type="submit" id=btn_search>검색</button>
 							</div>
 						</form>
@@ -107,7 +107,7 @@
 						<div id="paging">
 							<ul>
 								<c:if test="${requestScope.pMap.prev}">
-									<li><a href="${pageContext.request.contextPath}/tboard/list2?crtpage=${requestScope.pMap.startPageBtnNo-1}">◀</a></li>
+									<li><a href="${pageContext.request.contextPath}/tboard/list3?crtpage=${requestScope.pMap.startPageBtnNo-1}">◀</a></li>
 								</c:if>
 								
 								<c:forEach begin="${requestScope.pMap.startPageBtnNo}" 
@@ -115,16 +115,16 @@
 										   step="1" var="page">
 									<c:choose>
 										<c:when test="${param.crtpage == page}">
-											<li class="active"><a href="${pageContext.request.contextPath}/tboard/list2?crtpage=${page}">${page}</a></li>
+											<li class="active"><a href="${pageContext.request.contextPath}/tboard/list3?crtpage=${page}">${page}</a></li>
 										</c:when>
 										<c:otherwise>
-											<li class=""><a href="${pageContext.request.contextPath}/tboard/list2?crtpage=${page}">${page}</a></li>
+											<li class=""><a href="${pageContext.request.contextPath}/tboard/list3?crtpage=${page}">${page}</a></li>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
 								
 								<c:if test="${requestScope.pMap.next}">
-									<li><a href="${pageContext.request.contextPath}/tboard/list2?crtpage=${requestScope.pMap.endPageBtnNo+1}">▶</a></li>
+									<li><a href="${pageContext.request.contextPath}/tboard/list3?crtpage=${requestScope.pMap.endPageBtnNo+1}">▶</a></li>
 								</c:if>
 							</ul>
 							

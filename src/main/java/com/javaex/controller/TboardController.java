@@ -34,14 +34,27 @@ public class TboardController {
 	//리스트2(페이징)
 	@RequestMapping(value="/tboard/list2", method = {RequestMethod.GET, RequestMethod.POST})
 	public String list2(@RequestParam(value="crtpage", required = false, defaultValue = "1") int crtPage, Model model) {
-		System.out.println("TboardController.list()");
+		System.out.println("TboardController.list2()");
 		
 		Map<String, Object> pMap = tboardService.exeList2(crtPage);
 		System.out.println(pMap);
 		
-		//model.addAttribute("tboardList", tboardList);
+		model.addAttribute("pMap", pMap);
 		return "tboard/list2";
 	}
 	
+	
+	//리스트3(페이징 + 검색)
+	@RequestMapping(value="/tboard/list3", method = {RequestMethod.GET, RequestMethod.POST})
+	public String list3(@RequestParam(value="crtpage", required = false, defaultValue = "1") int crtPage, 
+						@RequestParam(value="keyword", required = false, defaultValue = "") String keyword,
+						Model model) {
+		System.out.println("TboardController.list3()");
+
+		Map<String, Object> pMap = tboardService.exeList3(crtPage, keyword);
+		
+		model.addAttribute("pMap", pMap);
+		return "tboard/list3";
+	}
 	
 }

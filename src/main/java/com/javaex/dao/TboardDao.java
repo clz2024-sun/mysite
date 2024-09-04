@@ -29,14 +29,31 @@ public class TboardDao {
 		return tboardList;
 	}
 	
+	public List<TboardVo> selectList3(Map<String, Object> limitMap) {
+		System.out.println("TboardDao.selectList3()");
+		
+		List<TboardVo> tboardList = sqlSession.selectList("tboard.selectList3", limitMap);
+		return tboardList;
+	}
+	
+	
+	
 	/* 전체 글갯수 */
 	public int selectTotalCnt() {
 		System.out.println("TboardDao.selectTotalCnt()");
 		
 		int totalCnt = sqlSession.selectOne("tboard.selectTotalCnt");
-		System.out.println(totalCnt);
 		return totalCnt;
 	}
 	
+	
+	/* 전체 글갯수 */
+	public int selectTotalCntKeyword(String keyword) {
+		System.out.println("TboardDao.selectTotalCntKeyword()");
+		
+		int totalCnt = sqlSession.selectOne("tboard.selectTotalCntKeyword", keyword);
+		System.out.println(totalCnt);
+		return totalCnt;
+	}
 	
 }

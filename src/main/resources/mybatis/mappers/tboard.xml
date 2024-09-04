@@ -35,6 +35,27 @@
 		]]>
 	</select>
 	
+	
+	<select id="selectList3" parameterType="map" resultType="com.javaex.vo.TboardVo">
+	<![CDATA[
+		SELECT  b.no,
+		        b.title,
+		        b.content,
+		        u.name,
+		        b.hit,
+		        date_format(b.reg_date,'%Y-%m-%d %H:%i:%s') regDate,
+		        u.no userNo
+		FROM tboard b, users u
+		WHERE  b.user_no = u.no	
+		and title like concat('%',#{keyword},'%')	
+		order by no asc
+		limit #{startRowNo}, #{listCnt}
+	]]>
+	</select>
+	
+	
+	
+	
 	<!-- 전체글갯수 -->
 	<select id="selectTotalCnt" resultType="int" >
 		<![CDATA[
@@ -44,6 +65,14 @@
 	</select>
 	
 	
+	<!-- 전체글갯수 -->
+	<select id="selectTotalCntKeyword" parameterType="string" resultType="int" >
+		<![CDATA[
+			select count(*) count
+			from tboard
+			where title like concat('%',#{keyword},'%')	
+		]]>
+	</select>
 	
 	
 	
